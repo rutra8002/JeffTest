@@ -16,7 +16,7 @@ struct Square {
 
 int main()
 {
-    InitWindow(0, 0, "Movable Square with Joystick");
+    InitWindow(0, 0, "Jeff Mobile");
 
     int screenWidth = GetScreenWidth();
     int screenHeight = GetScreenHeight();
@@ -25,10 +25,11 @@ int main()
     Joystick joystick = { {joystickRadius, static_cast<float>(screenHeight) - joystickRadius}, {joystickRadius, static_cast<float>(screenHeight) - joystickRadius}, joystickRadius, {0, 0}, false };
     Square square = { {static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2}, screenHeight * 0.1f };
 
-    SetTargetFPS(60);
 
     while (!WindowShouldClose())
     {
+        float deltaTime = GetFrameTime();
+
         DrawFPS(joystickRadius, joystickRadius);
         if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
             Vector2 touchPosition = GetMousePosition();
@@ -44,10 +45,10 @@ int main()
             joystick.direction = {0, 0};
         }
 
-        // Update square position
+        // Update square position using delta time
         if (joystick.active) {
-            square.position.x += joystick.direction.x * 5.0f;
-            square.position.y += joystick.direction.y * 5.0f;
+            square.position.x += joystick.direction.x * 200.0f * deltaTime;
+            square.position.y += joystick.direction.y * 200.0f * deltaTime;
         }
 
         BeginDrawing();
