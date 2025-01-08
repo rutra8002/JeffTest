@@ -1,6 +1,6 @@
 #include "raylib.h"
 #include "Joystick.h"
-#include "Square.h"
+#include "Player.h"
 
 int main()
 {
@@ -11,7 +11,7 @@ int main()
 
     float joystickRadius = screenHeight * 0.2f;
     Joystick joystick({joystickRadius, static_cast<float>(screenHeight) - joystickRadius}, joystickRadius);
-    Square square({static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2}, screenHeight * 0.1f);
+    Player square({static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2}, screenHeight * 0.1f);
 
     while (!WindowShouldClose())
     {

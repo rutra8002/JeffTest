@@ -1142,7 +1142,7 @@ static float jar_xm_waveform(jar_xm_waveform_type_t waveform, uint8_t step) {
         return -sinf(2.f * 3.141592f * (float)step / (float)0x40);
     case jar_xm_RAMP_DOWN_WAVEFORM: /* Ramp down: 1.0f when step = 0; -1.0f when step = 0x40 */
         return (float)(0x20 - step) / 0x20;
-    case jar_xm_SQUARE_WAVEFORM: /* Square with a 50% duty */
+    case jar_xm_SQUARE_WAVEFORM: /* Player with a 50% duty */
         return (step >= 0x20) ? 1.f : -1.f;
     case jar_xm_RANDOM_WAVEFORM: /* Use the POSIX.1-2001 example, just to be deterministic across different machines */
         next_rand = next_rand * 1103515245 + 12345;
