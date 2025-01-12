@@ -1,21 +1,28 @@
 #include "Joystick.h"
 
 Joystick::Joystick(Vector2 origin, float radius)
-        : origin(origin), radius(radius), position(origin), direction({0, 0}), active(false) {}
+        : origin(origin), radius(radius), position(origin), direction({0, 0}), active(false), touchId(-1) {}
 
 void Joystick::Update() {
-    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
-        Vector2 touchPosition = GetMousePosition();
+    int touchCount = GetTouchPointCount();
+    active = false;
+
+    for (int i = 0; i < touchCount; i++) {
+        Vector2 touchPosition = GetTouchPosition(i);
         if (CheckCollisionPointCircle(touchPosition, origin, radius)) {
             active = true;
+            touchId = i;
             position = touchPosition;
             direction = Vector2Subtract(position, origin);
             direction = Vector2Normalize(direction);
+            break;
         }
-    } else {
-        active = false;
+    }
+
+    if (!active) {
         position = origin;
         direction = {0, 0};
+        touchId = -1;
     }
 }
 

@@ -13,7 +13,8 @@ int main()
     const int baseScreenHeight = 1080;
 
     float joystickRadius = screenHeight * 0.2f;
-    Joystick joystick({joystickRadius, static_cast<float>(screenHeight) - joystickRadius}, joystickRadius);
+    Joystick movementJoystick({joystickRadius, static_cast<float>(screenHeight) - joystickRadius}, joystickRadius);
+    Joystick angleJoystick({static_cast<float>(screenWidth) - joystickRadius, static_cast<float>(screenHeight) - joystickRadius}, joystickRadius);
     Player square({static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2}, screenHeight * 0.1f);
 
     Camera2D camera = {0};
@@ -26,14 +27,15 @@ int main()
     {
         float deltaTime = GetFrameTime();
 
-        joystick.Update();
-        square.Update(joystick, deltaTime);
-
+        movementJoystick.Update();
+        angleJoystick.Update();
+        square.Update(movementJoystick, angleJoystick, deltaTime);
 
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        joystick.Draw();
+        movementJoystick.Draw();
+        angleJoystick.Draw();
 
         BeginMode2D(camera);
 

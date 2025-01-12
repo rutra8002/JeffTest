@@ -11,6 +11,7 @@ public:
     float radius;
     Vector2 direction;
     bool active;
+    int touchId;
 
     Joystick(Vector2 origin, float radius);
     void Update();
