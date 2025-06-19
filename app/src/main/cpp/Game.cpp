@@ -1,13 +1,8 @@
 #include "Game.h"
-#include "Button.h"
+#include "MainMenuScreen.h"
+#include "GameplayScreen.h"
 
-Game::Game()
-        : joystickRadius(0),
-          movementJoystick({0, 0}, 0),
-          angleJoystick({0, 0}, 0),
-          square({0, 0}, 0),
-          playButton({0, 0, 0, 0}, ""),
-          quitButton({0, 0, 0, 0}, "") {
+Game::Game() : screenWidth(0), screenHeight(0), currentScreen(nullptr), currentScreenIdentifier(MAIN_MENU) {
     Init();
 }
 
@@ -20,24 +15,9 @@ void Game::Init() {
 
     screenWidth = GetScreenWidth();
     screenHeight = GetScreenHeight();
-    joystickRadius = screenHeight * 0.2f;
 
-    movementJoystick = Joystick({joystickRadius, static_cast<float>(screenHeight) - joystickRadius}, joystickRadius);
-    angleJoystick = Joystick({static_cast<float>(screenWidth) - joystickRadius, static_cast<float>(screenHeight) - joystickRadius}, joystickRadius);
-    square = Player({static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2}, screenHeight * 0.1f);
-
-    camera = {0};
-    camera.target = square.position;
-    camera.offset = {static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2};
-    camera.rotation = 0.0f;
-    camera.zoom = static_cast<float>(screenHeight) / 1080.0f;
-
-    currentScreen = MAIN_MENU;
-    float buttonWidth = screenWidth * 0.6f;
-    float buttonHeight = screenHeight * 0.1f;
-    float spacing = screenHeight * 0.05f;
-    playButton = Button({(screenWidth - buttonWidth) / 2, screenHeight / 2.0f - buttonHeight - spacing / 2.0f, buttonWidth, buttonHeight}, "PLAY");
-    quitButton = Button({(screenWidth - buttonWidth) / 2, screenHeight / 2.0f + spacing / 2.0f, buttonWidth, buttonHeight}, "QUIT");
+    currentScreenIdentifier = MAIN_MENU;
+    currentScreen = new MainMenuScreen();
 }
 
 void Game::Run() {
@@ -48,22 +28,40 @@ void Game::Run() {
 }
 
 void Game::Update() {
-    switch (currentScreen) {
-        case MAIN_MENU: {
-            if (playButton.IsPressed()) {
-                currentScreen = GAMEPLAY;
-            }
-            if (quitButton.IsPressed()) {
-                CloseWindow();
-            }
-        } break;
-        case GAMEPLAY: {
-            float deltaTime = GetFrameTime();
-            movementJoystick.Update();
-            angleJoystick.Update();
-            square.Update(movementJoystick, angleJoystick, deltaTime);
-        } break;
-        default: break;
+    if (currentScreen != nullptr) {
+        currentScreen->Update();
+        GameScreen nextScreen = currentScreen->FinishScreen();
+
+        if (nextScreen != currentScreenIdentifier) {
+            ChangeScreen(nextScreen);
+        }
+    }
+}
+
+void Game::ChangeScreen(GameScreen screen) {
+    if (currentScreen != nullptr) {
+        delete currentScreen;
+        currentScreen = nullptr;
+    }
+
+    currentScreenIdentifier = screen;
+
+    switch (screen) {
+        case MAIN_MENU:
+            currentScreen = new MainMenuScreen();
+            break;
+        case GAMEPLAY:
+            currentScreen = new GameplayScreen();
+            break;
+        case EXIT_GAME:
+            // The main loop will handle closing the window
+            break;
+        default:
+            break;
+    }
+
+    if (screen == EXIT_GAME) {
+        CloseWindow();
     }
 }
 
@@ -71,28 +69,16 @@ void Game::Draw() {
     BeginDrawing();
     ClearBackground(RAYWHITE);
 
-    switch (currentScreen) {
-        case MAIN_MENU: {
-            DrawText("JEFF MOBILE", screenWidth / 2 - MeasureText("JEFF MOBILE", 40) / 2, screenHeight * 0.2f, 40, DARKGRAY);
-            playButton.Draw();
-            quitButton.Draw();
-        } break;
-        case GAMEPLAY: {
-            movementJoystick.Draw();
-            angleJoystick.Draw();
-
-            BeginMode2D(camera);
-            square.Draw();
-            EndMode2D();
-
-            DrawFPS(joystickRadius, joystickRadius);
-        } break;
-        default: break;
+    if (currentScreen != nullptr) {
+        currentScreen->Draw();
     }
 
     EndDrawing();
 }
 
 void Game::Cleanup() {
-    CloseWindow();
+    if (currentScreen != nullptr) {
+        delete currentScreen;
+        currentScreen = nullptr;
+    }
 }

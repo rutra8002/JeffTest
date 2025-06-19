@@ -2,14 +2,7 @@
 #define GAME_H
 
 #include "raylib.h"
-#include "Joystick.h"
-#include "Player.h"
-#include "Button.h"
-
-typedef enum GameScreen {
-    MAIN_MENU,
-    GAMEPLAY
-} GameScreen;
+#include "Screen.h"
 
 class Game {
 public:
@@ -22,18 +15,13 @@ private:
     void Update();
     void Draw();
     void Cleanup();
+    void ChangeScreen(GameScreen screen);
 
     int screenWidth;
     int screenHeight;
-    float joystickRadius;
-    Joystick movementJoystick;
-    Joystick angleJoystick;
-    Player square;
-    Camera2D camera;
 
-    GameScreen currentScreen;
-    Button playButton;
-    Button quitButton;
+    Screen* currentScreen;
+    GameScreen currentScreenIdentifier;
 };
 
 #endif
