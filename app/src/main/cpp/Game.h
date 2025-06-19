@@ -4,6 +4,12 @@
 #include "raylib.h"
 #include "Joystick.h"
 #include "Player.h"
+#include "Button.h"
+
+typedef enum GameScreen {
+    MAIN_MENU,
+    GAMEPLAY
+} GameScreen;
 
 class Game {
 public:
@@ -24,6 +30,10 @@ private:
     Joystick angleJoystick;
     Player square;
     Camera2D camera;
+
+    GameScreen currentScreen;
+    Button playButton;
+    Button quitButton;
 };
 
 #endif
