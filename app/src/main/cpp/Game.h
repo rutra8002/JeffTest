@@ -2,7 +2,7 @@
 #define GAME_H
 
 #include "raylib.h"
-#include "Screen.h"
+#include "screens/Screen.h"
 
 class Game {
 public:

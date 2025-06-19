@@ -2,7 +2,7 @@
 #define MAINMENUSCREEN_H
 
 #include "Screen.h"
-#include "Button.h"
+#include "../UI/Button.h"
 
 class MainMenuScreen : public Screen {
 public:

@@ -20,10 +20,10 @@ set(SOURCES
         main.cpp
         Game.cpp
         Player.cpp
-        Joystick.cpp
-        Button.cpp
-        MainMenuScreen.cpp
-        GameplayScreen.cpp)
+        UI/Joystick.cpp
+        UI/Button.cpp
+        screens/MainMenuScreen.cpp
+        screens/GameplayScreen.cpp)
 
 # Add headers directory for android_native_app_glue.c
 include_directories(${ANDROID_NDK}/sources/android/native_app_glue/)

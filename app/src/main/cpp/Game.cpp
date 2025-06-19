@@ -1,6 +1,6 @@
 #include "Game.h"
-#include "MainMenuScreen.h"
-#include "GameplayScreen.h"
+#include "screens/MainMenuScreen.h"
+#include "screens/GameplayScreen.h"
 
 Game::Game() : screenWidth(0), screenHeight(0), currentScreen(nullptr), currentScreenIdentifier(MAIN_MENU) {
     Init();

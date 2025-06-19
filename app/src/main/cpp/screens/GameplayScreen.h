@@ -2,8 +2,8 @@
 #define GAMEPLAYSCREEN_H
 
 #include "Screen.h"
-#include "Player.h"
-#include "Joystick.h"
+#include "../Player.h"
+#include "../UI/Joystick.h"
 
 class GameplayScreen : public Screen {
 public:

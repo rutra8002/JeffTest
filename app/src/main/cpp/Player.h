@@ -2,7 +2,7 @@
 #define SQUARE_H
 
 #include "raylib.h"
-#include "Joystick.h"
+#include "UI/Joystick.h"
 
 class Player {
 public:
