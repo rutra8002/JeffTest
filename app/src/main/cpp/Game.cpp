@@ -2,7 +2,8 @@
 #include "screens/MainMenuScreen.h"
 #include "screens/GameplayScreen.h"
 
-Game::Game() : screenWidth(0), screenHeight(0), currentScreen(nullptr), currentScreenIdentifier(MAIN_MENU) {
+Game::Game() : screenWidth(0), screenHeight(0), currentScreen(nullptr), currentScreenIdentifier(MAIN_MENU),
+               transitionState(TransitionState::NONE), transitionAlpha(0.0f), transitionToScreen(MAIN_MENU) {
     Init();
 }
 
@@ -28,13 +29,38 @@ void Game::Run() {
 }
 
 void Game::Update() {
-    if (currentScreen != nullptr) {
-        currentScreen->Update();
-        GameScreen nextScreen = currentScreen->FinishScreen();
+    switch (transitionState) {
+        case FADE_OUT: {
+            transitionAlpha += 2.0f * GetFrameTime(); // Fade speed
+            if (transitionAlpha >= 1.0f) {
+                transitionAlpha = 1.0f;
+                ChangeScreen(transitionToScreen);
+                if (transitionToScreen != EXIT_GAME) {
+                    transitionState = FADE_IN;
+                } else {
+                    transitionState = NONE;
+                }
+            }
+        } break;
+        case FADE_IN: {
+            transitionAlpha -= 2.0f * GetFrameTime(); // Fade speed
+            if (transitionAlpha <= 0.0f) {
+                transitionAlpha = 0.0f;
+                transitionState = NONE;
+            }
+        } break;
+        default: { // NONE
+            if (currentScreen != nullptr) {
+                currentScreen->Update();
+                GameScreen nextScreen = currentScreen->FinishScreen();
 
-        if (nextScreen != currentScreenIdentifier) {
-            ChangeScreen(nextScreen);
-        }
+                if (nextScreen != currentScreenIdentifier) {
+                    transitionState = FADE_OUT;
+                    transitionToScreen = nextScreen;
+                    transitionAlpha = 0.0f;
+                }
+            }
+        } break;
     }
 }
 
@@ -71,6 +97,10 @@ void Game::Draw() {
 
     if (currentScreen != nullptr) {
         currentScreen->Draw();
+    }
+
+    if (transitionState != NONE) {
+        DrawRectangle(0, 0, screenWidth, screenHeight, Fade(BLACK, transitionAlpha));
     }
 
     EndDrawing();

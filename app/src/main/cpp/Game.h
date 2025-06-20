@@ -22,6 +22,12 @@ private:
 
     Screen* currentScreen;
     GameScreen currentScreenIdentifier;
+
+    // Screen transition
+    enum TransitionState { NONE, FADE_OUT, FADE_IN };
+    TransitionState transitionState;
+    float transitionAlpha;
+    GameScreen transitionToScreen;
 };
 
 #endif
