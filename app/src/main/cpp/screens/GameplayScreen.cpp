@@ -12,6 +12,9 @@ GameplayScreen::GameplayScreen()
     angleJoystick = Joystick({static_cast<float>(screenWidth) - (joystickRadius*3/2), static_cast<float>(screenHeight) - (joystickRadius*3/2)}, joystickRadius);
     player = Player({static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2}, screenHeight * 0.1f);
 
+    enemies.emplace_back(Enemy({100.0f, 100.0f}, 50.0f, 150.0f));
+    enemies.emplace_back(Enemy({static_cast<float>(screenWidth) - 100.0f, 100.0f}, 50.0f, 150.0f));
+
     camera = {0};
     camera.target = player.position;
     camera.offset = {static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2};
@@ -24,6 +27,10 @@ void GameplayScreen::Update() {
     movementJoystick.Update();
     angleJoystick.Update();
     player.Update(movementJoystick, angleJoystick, deltaTime);
+
+    for (auto& enemy : enemies) {
+        enemy.Update(player, deltaTime);
+    }
 }
 
 void GameplayScreen::Draw() {
@@ -32,6 +39,9 @@ void GameplayScreen::Draw() {
 
     BeginMode2D(camera);
     player.Draw();
+    for (const auto& enemy : enemies) {
+        enemy.Draw();
+    }
     EndMode2D();
 
     DrawFPS(100, 100);

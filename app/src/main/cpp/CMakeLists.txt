@@ -20,6 +20,7 @@ set(SOURCES
         main.cpp
         Game.cpp
         Player.cpp
+        Enemy.cpp
         UI/Joystick.cpp
         UI/Button.cpp
         screens/MainMenuScreen.cpp

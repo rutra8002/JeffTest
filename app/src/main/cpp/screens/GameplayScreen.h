@@ -1,8 +1,10 @@
 #ifndef GAMEPLAYSCREEN_H
 #define GAMEPLAYSCREEN_H
 
+#include <vector>
 #include "Screen.h"
 #include "../Player.h"
+#include "../Enemy.h"
 #include "../UI/Joystick.h"
 
 class GameplayScreen : public Screen {
@@ -16,6 +18,7 @@ public:
 
 private:
     Player player;
+    std::vector<Enemy> enemies;
     Joystick movementJoystick;
     Joystick angleJoystick;
     Camera2D camera{};
