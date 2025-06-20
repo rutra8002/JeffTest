@@ -8,8 +8,8 @@ GameplayScreen::GameplayScreen()
     int screenHeight = GetScreenHeight();
     float joystickRadius = screenHeight * 0.2f;
 
-    movementJoystick = Joystick({joystickRadius, static_cast<float>(screenHeight) - joystickRadius}, joystickRadius);
-    angleJoystick = Joystick({static_cast<float>(screenWidth) - joystickRadius, static_cast<float>(screenHeight) - joystickRadius}, joystickRadius);
+    movementJoystick = Joystick({joystickRadius*3/2, static_cast<float>(screenHeight) - (joystickRadius*3/2)}, joystickRadius);
+    angleJoystick = Joystick({static_cast<float>(screenWidth) - (joystickRadius*3/2), static_cast<float>(screenHeight) - (joystickRadius*3/2)}, joystickRadius);
     player = Player({static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2}, screenHeight * 0.1f);
 
     camera = {0};

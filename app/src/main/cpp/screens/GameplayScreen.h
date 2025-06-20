@@ -18,7 +18,7 @@ private:
     Player player;
     Joystick movementJoystick;
     Joystick angleJoystick;
-    Camera2D camera;
+    Camera2D camera{};
 };
 
 #endif
