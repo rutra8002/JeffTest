@@ -11,6 +11,9 @@ public:
     Button(Rectangle bounds, const char* text);
     void Draw() const;
     bool IsPressed() const;
+
+private:
+    mutable bool wasTouched = false;
 };
 
 #endif

@@ -1,4 +1,5 @@
 #include "Button.h"
+#include "raymob.h"
 
 Button::Button(Rectangle bounds, const char* text) : bounds(bounds), text(text) {}
 
@@ -10,14 +11,23 @@ void Button::Draw() const {
 }
 
 bool Button::IsPressed() const {
+    bool pressed = false;
+
     // Check for mouse input (for desktop testing)
-    if (CheckCollisionPointRec(GetMousePosition(), bounds) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-        return true;
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), bounds)) {
+        pressed = true;
     }
 
-    // Check for touch input
-    if (GetTouchPointCount() > 0 && CheckCollisionPointRec(GetTouchPosition(0), bounds)) {
-        return true;
+    // Check for touch input, ensuring it's a single press event
+    bool touchDown = GetTouchPointCount() > 0 && CheckCollisionPointRec(GetTouchPosition(0), bounds);
+    if (touchDown && !wasTouched) {
+        pressed = true;
     }
-    return false;
+    wasTouched = touchDown;
+
+    if (pressed) {
+        VibrateMS(50);
+    }
+
+    return pressed;
 }
