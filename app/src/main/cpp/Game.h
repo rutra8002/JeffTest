@@ -3,6 +3,7 @@
 
 #include "raylib.h"
 #include "screens/Screen.h"
+#include "DebugMenu.h"
 
 class Game {
 public:
@@ -28,6 +29,8 @@ private:
     TransitionState transitionState;
     float transitionAlpha;
     GameScreen transitionToScreen;
+
+    DebugMenu debugMenu;
 };
 
 #endif

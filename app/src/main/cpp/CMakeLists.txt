@@ -25,7 +25,8 @@ set(SOURCES
         UI/Joystick.cpp
         UI/Button.cpp
         screens/MainMenuScreen.cpp
-        screens/GameplayScreen.cpp)
+        screens/GameplayScreen.cpp
+        DebugMenu.cpp)
 
 # Add headers directory for android_native_app_glue.c
 include_directories(${ANDROID_NDK}/sources/android/native_app_glue/)

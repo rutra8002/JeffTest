@@ -1,5 +1,6 @@
 #include "GameplayScreen.h"
 #include "raymath.h"
+#include "../DebugMenu.h"
 
 GameplayScreen::GameplayScreen()
         : player({0, 0}, 0, 0),
@@ -56,6 +57,15 @@ void GameplayScreen::Update() {
             }
         }
     }
+}
+
+void GameplayScreen::UpdateDebugInfo(DebugMenu& debugMenu) {
+    debugMenu.AddGameObject("Player", &player);
+
+    for (size_t i = 0; i < enemies.size(); i++) {
+        debugMenu.AddGameObject("Enemy " + std::to_string(i+1), &enemies[i]);
+    }
+
 }
 
 void GameplayScreen::Draw() {

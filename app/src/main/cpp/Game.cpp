@@ -29,6 +29,16 @@ void Game::Run() {
 }
 
 void Game::Update() {
+    debugMenu.Update();
+
+    // Update debug info if on gameplay screen
+    if (currentScreenIdentifier == GAMEPLAY) {
+        GameplayScreen* gameplayScreen = dynamic_cast<GameplayScreen*>(currentScreen);
+        if (gameplayScreen) {
+            debugMenu.ClearGameObjects();
+            gameplayScreen->UpdateDebugInfo(debugMenu);
+        }
+    }
     switch (transitionState) {
         case FADE_OUT: {
             transitionAlpha += 2.0f * GetFrameTime(); // Fade speed
@@ -102,6 +112,7 @@ void Game::Draw() {
     if (transitionState != NONE) {
         DrawRectangle(0, 0, screenWidth, screenHeight, Fade(BLACK, transitionAlpha));
     }
+    debugMenu.Draw();
 
     EndDrawing();
 }

@@ -6,6 +6,8 @@
 #include "../gameobjects/Player.h"
 #include "../gameobjects/Enemy.h"
 #include "../UI/Joystick.h"
+#include "../DebugMenu.h"
+
 
 class GameplayScreen : public Screen {
 public:
@@ -14,6 +16,9 @@ public:
 
     void Update() override;
     void Draw() override;
+
+    void UpdateDebugInfo(DebugMenu& debugMenu);
+
     GameScreen FinishScreen() override;
 
 private:
