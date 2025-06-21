@@ -7,6 +7,7 @@
 class Enemy {
 public:
     Vector2 position;
+    Vector2 velocity;
     float size;
     float speed;
 

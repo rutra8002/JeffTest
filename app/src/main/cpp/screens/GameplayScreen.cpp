@@ -1,7 +1,7 @@
 #include "GameplayScreen.h"
 
 GameplayScreen::GameplayScreen()
-        : player({0, 0}, 0),
+        : player({0, 0}, 0, 0),
           movementJoystick({0, 0}, 0),
           angleJoystick({0, 0}, 0) {
     int screenWidth = GetScreenWidth();
@@ -10,7 +10,7 @@ GameplayScreen::GameplayScreen()
 
     movementJoystick = Joystick({joystickRadius*3/2, static_cast<float>(screenHeight) - (joystickRadius*3/2)}, joystickRadius);
     angleJoystick = Joystick({static_cast<float>(screenWidth) - (joystickRadius*3/2), static_cast<float>(screenHeight) - (joystickRadius*3/2)}, joystickRadius);
-    player = Player({static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2}, screenHeight * 0.1f);
+    player = Player({static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2}, screenHeight * 0.1f, 400.0f);
 
     enemies.emplace_back(Enemy({100.0f, 100.0f}, 50.0f, 150.0f));
     enemies.emplace_back(Enemy({static_cast<float>(screenWidth) - 100.0f, 100.0f}, 50.0f, 150.0f));
