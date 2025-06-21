@@ -3,8 +3,8 @@
 
 #include <vector>
 #include "Screen.h"
-#include "../Player.h"
-#include "../Enemy.h"
+#include "../gameobjects/Player.h"
+#include "../gameobjects/Enemy.h"
 #include "../UI/Joystick.h"
 
 class GameplayScreen : public Screen {

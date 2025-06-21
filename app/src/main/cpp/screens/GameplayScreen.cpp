@@ -1,4 +1,5 @@
 #include "GameplayScreen.h"
+#include "raymath.h"
 
 GameplayScreen::GameplayScreen()
         : player({0, 0}, 0, 0),
@@ -30,6 +31,30 @@ void GameplayScreen::Update() {
 
     for (auto& enemy : enemies) {
         enemy.Update(player, deltaTime);
+    }
+
+    // Reset collision flags
+    player.isColliding = false;
+    for (auto& enemy : enemies) {
+        enemy.isColliding = false;
+    }
+
+    // Player vs Enemies Collision
+    for (auto& enemy : enemies) {
+        if (CheckCollisionCircles(player.position, player.size / 2, enemy.position, enemy.size / 2)) {
+            player.isColliding = true;
+            enemy.isColliding = true;
+        }
+    }
+
+    // Enemies vs Enemies Collision
+    for (size_t i = 0; i < enemies.size(); ++i) {
+        for (size_t j = i + 1; j < enemies.size(); ++j) {
+            if (CheckCollisionCircles(enemies[i].position, enemies[i].size / 2, enemies[j].position, enemies[j].size / 2)) {
+                enemies[i].isColliding = true;
+                enemies[j].isColliding = true;
+            }
+        }
     }
 }
 

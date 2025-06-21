@@ -1,7 +1,8 @@
 #include "Player.h"
+#include "raymath.h"
 
 Player::Player(Vector2 position, float size, float speed)
-        : position(position), velocity({0.0f, 0.0f}), size(size), speed(speed), angle(0.0f) {}
+        : GameObject(position, size, speed), angle(0.0f) {}
 
 void Player::Update(const Joystick& movementJoystick, const Joystick& angleJoystick, float deltaTime) {
     if (movementJoystick.active) {
@@ -11,8 +12,7 @@ void Player::Update(const Joystick& movementJoystick, const Joystick& angleJoyst
         velocity = { 0.0f, 0.0f };
     }
 
-    position.x += velocity.x * deltaTime;
-    position.y += velocity.y * deltaTime;
+    GameObject::Update(deltaTime);
 
     if (angleJoystick.active) {
         angle = atan2f(angleJoystick.direction.y, angleJoystick.direction.x) * (180.0f / PI);
@@ -20,5 +20,5 @@ void Player::Update(const Joystick& movementJoystick, const Joystick& angleJoyst
 }
 
 void Player::Draw() const {
-    DrawRectanglePro({position.x, position.y, size, size}, {size / 2, size / 2}, angle, RED);
+    DrawRectanglePro({position.x, position.y, size, size}, {size / 2, size / 2}, angle, isColliding ? YELLOW : RED);
 }

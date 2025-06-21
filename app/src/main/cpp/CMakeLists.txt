@@ -19,8 +19,9 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/deps/raymob)
 set(SOURCES
         main.cpp
         Game.cpp
-        Player.cpp
-        Enemy.cpp
+        gameobjects/Player.cpp
+        gameobjects/Enemy.cpp
+        gameobjects/GameObject.cpp
         UI/Joystick.cpp
         UI/Button.cpp
         screens/MainMenuScreen.cpp

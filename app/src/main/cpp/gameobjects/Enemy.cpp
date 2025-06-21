@@ -2,7 +2,7 @@
 #include "raymath.h"
 
 Enemy::Enemy(Vector2 position, float size, float speed)
-        : position(position), velocity({0.0f, 0.0f}), size(size), speed(speed) {}
+        : GameObject(position, size, speed) {}
 
 void Enemy::Update(const Player& player, float deltaTime) {
     Vector2 direction = Vector2Subtract(player.position, position);
@@ -11,10 +11,9 @@ void Enemy::Update(const Player& player, float deltaTime) {
     velocity.x = direction.x * speed;
     velocity.y = direction.y * speed;
 
-    position.x += velocity.x * deltaTime;
-    position.y += velocity.y * deltaTime;
+    GameObject::Update(deltaTime);
 }
 
 void Enemy::Draw() const {
-    DrawRectangleRec({ position.x - size / 2, position.y - size / 2, size, size }, BLUE);
+    DrawRectangleRec(GetRect(), isColliding ? ORANGE : BLUE);
 }

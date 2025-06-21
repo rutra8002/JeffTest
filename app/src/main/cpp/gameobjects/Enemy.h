@@ -1,19 +1,14 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include "raylib.h"
+#include "GameObject.h"
 #include "Player.h"
 
-class Enemy {
+class Enemy : public GameObject {
 public:
-    Vector2 position;
-    Vector2 velocity;
-    float size;
-    float speed;
-
     Enemy(Vector2 position, float size, float speed);
     void Update(const Player& player, float deltaTime);
-    void Draw() const;
+    void Draw() const override;
 };
 
 #endif
