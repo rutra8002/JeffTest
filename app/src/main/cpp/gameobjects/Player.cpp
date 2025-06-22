@@ -43,6 +43,28 @@ void Player::Update(const Joystick& movementJoystick, const Joystick& angleJoyst
     }
 }
 
+void Player::HandleCollision(GameObject* other) {
+    // Calculate collision normal (direction from other to this)
+    Vector2 normal = Vector2Normalize(Vector2Subtract(position, other->position));
+
+    // Calculate relative velocity
+    Vector2 relativeVelocity = Vector2Subtract(velocity, other->velocity);
+
+    // Calculate bounce factor (can be adjusted)
+    float bounceFactor = 2.7f;
+
+    // Calculate impulse magnitude
+    float impulseMagnitude = Vector2DotProduct(relativeVelocity, normal) * (1.0f + bounceFactor);
+
+    // Apply impulse to velocities
+    Vector2 impulse = Vector2Scale(normal, impulseMagnitude);
+    velocity = Vector2Subtract(velocity, Vector2Scale(impulse, 0.5f));
+
+    // Slightly separate objects to prevent sticking
+    position = Vector2Add(position, Vector2Scale(normal, 1.0f));
+}
+
+
 void Player::Draw() const {
     DrawRectanglePro({position.x, position.y, size, size}, {size / 2, size / 2}, angle, isColliding ? YELLOW : RED);
 }

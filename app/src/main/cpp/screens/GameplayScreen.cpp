@@ -45,6 +45,8 @@ void GameplayScreen::Update() {
         if (CheckCollisionCircles(player.position, player.size / 2, enemy.position, enemy.size / 2)) {
             player.isColliding = true;
             enemy.isColliding = true;
+            player.HandleCollision(&enemy);
+            enemy.HandleCollision(&player);
         }
     }
 
@@ -54,6 +56,8 @@ void GameplayScreen::Update() {
             if (CheckCollisionCircles(enemies[i].position, enemies[i].size / 2, enemies[j].position, enemies[j].size / 2)) {
                 enemies[i].isColliding = true;
                 enemies[j].isColliding = true;
+                enemies[i].HandleCollision(&enemies[j]);
+                enemies[j].HandleCollision(&enemies[i]);
             }
         }
     }

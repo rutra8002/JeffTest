@@ -11,6 +11,7 @@ public:
     Player(Vector2 position, float size, float speed);
     void Update(const Joystick& movementJoystick, const Joystick& angleJoystick, float deltaTime);
     void Draw() const override;
+    void HandleCollision(GameObject* other);
 };
 
 #endif

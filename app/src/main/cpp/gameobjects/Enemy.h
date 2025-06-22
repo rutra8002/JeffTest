@@ -9,6 +9,8 @@ public:
     Enemy(Vector2 position, float size, float speed);
     void Update(const Player& player, float deltaTime);
     void Draw() const override;
+    void HandleCollision(GameObject* other);
+
 };
 
 #endif
